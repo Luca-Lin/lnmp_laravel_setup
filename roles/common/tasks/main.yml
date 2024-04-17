@@ -3,3 +3,15 @@
     update_cache: yes
     upgrade: yes
     state: latest
+
+- name: 安裝常用 apk 套件
+  apt:
+    name:
+      - wget
+      - curl
+      - unzip
+      - gnupg2
+      - vim
+      - git
+      - openssl
+    state: present

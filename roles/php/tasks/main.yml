@@ -1,6 +1,13 @@
+- name: 檢查系統版本
+  command: awk -F= '/^VERSION_ID=/ {print $2}' /etc/os-release
+  register: debian_version
+  changed_when: false
+  ignore_errors: true
+
 - name: 添加 PHP PPA 儲存庫
   apt_repository:
     repo: ppa:ondrej/php
+  when: debian_version.stdout != "12"
 
 - name: 安裝 PHP 及其擴展
   apt:
@@ -8,15 +15,17 @@
     state: present
   loop:
     - php{{ php_version }}-fpm
+    - php{{ php_version }}-bcmath
+    - php{{ php_version }}-curl
+    - php-json
+    - php{{ php_version }}-mbstring
+    - php{{ php_version }}-tokenizer
     - php{{ php_version }}-mysql
     - php{{ php_version }}-xml
-    - php{{ php_version }}-mbstring
-    - php{{ php_version }}-json
     - php{{ php_version }}-zip
     - php{{ php_version }}-gd
-    - php{{ php_version }}-curl
-    - php{{ php_version }}-pear
+    - php{{ php_version }}-common
     - php{{ php_version }}-dev
-    - php{{ php_version }}-cli
-    - php{{ php_version }}-tokenizer
-    - php{{ php_version }}-bcmath
+    - php{{ php_version }}-intl
+
+
