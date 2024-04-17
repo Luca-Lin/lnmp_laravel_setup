@@ -1,0 +1,4 @@
+- name: restart nginx after laravel deployment
+  service:
+    name: nginx
+    state: restarted

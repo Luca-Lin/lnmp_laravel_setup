@@ -1,0 +1,5 @@
+- name: 更新並升級 apt 套件
+  apt:
+    update_cache: yes
+    upgrade: yes
+    state: latest

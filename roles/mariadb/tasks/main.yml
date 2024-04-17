@@ -1,0 +1,10 @@
+- name: 安裝 MariaDB 伺服器
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: 確保 MariaDB 服務正在運行
+  service:
+    name: mariadb
+    state: started
+    enabled: yes

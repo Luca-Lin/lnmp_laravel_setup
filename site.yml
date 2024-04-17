@@ -1,0 +1,7 @@
+- hosts: all
+  roles:
+    - common
+    - nginx
+    - mariadb
+    - php
+    - laravel
