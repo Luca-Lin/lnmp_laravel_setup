@@ -1,1 +1,5 @@
-php_version: "8.2"
+version_php: "8.2"
+# Set OS and PHP timezone
+linux_timezone: UTC
+# Your linux user
+linux_user: root
