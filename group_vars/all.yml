@@ -3,3 +3,22 @@ version_php: "8.2"
 linux_timezone: UTC
 # Your linux user
 linux_user: root
+
+# ---------- MariaDB ---------- #
+version_mariadb: "10.11"
+# REQUIRED
+# Your MariaDB super-user
+mariadb_super_user_username: super_user
+mariadb_super_user_password: test
+
+# REQUIRED
+# Your prod MariaDB user
+mariadb_prod_username: user_prod
+mariadb_prod_password: test
+
+# MariaDB parameters
+mariadb_collation: utf8mb4_unicode_ci
+mariadb_encoding: utf8mb4
+mariadb_host: localhost
+mariadb_port: 3306
+# ---------- /MariaDB ---------- #

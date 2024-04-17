@@ -92,7 +92,13 @@
     line: 'listen.group = {{ linux_user }}'
 # ------------------------------ /www.conf ------------------------------
 
-# - name: Restart php{{ version_php }}-fpm
-#   service:
-#     name: php{{ version_php }}-fpm
-#     state: restarted
+- name: Restart php{{ version_php }}-fpm
+  service:
+    name: php{{ version_php }}-fpm
+    state: restarted
+  register: result
+  ignore_errors: yes
+
+- name: Fallback to direct command if restart failed
+  command: service php{{ version_php }}-fpm restart
+  when: result is failed
