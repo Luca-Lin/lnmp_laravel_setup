@@ -21,9 +21,11 @@
 - name: apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
   shell: apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
   when: mariadb_exist.stat.exists == False
+  become: yes
 
 - name: Configure apt repository for mariadb {{ version_mariadb }}
   shell: sh -c 'echo "deb [arch=amd64] https://mirror.mva-n.net/mariadb/repo/{{ version_mariadb }}/debian $(lsb_release -sc) main" > /etc/apt/sources.list.d/mariadb.list'
+  become: yes
 
 - name: apt-get update
   apt:
@@ -52,6 +54,7 @@
     state: restarted
   register: result
   ignore_errors: yes
+  become: yes
 
 - name: Fallback to direct command if restart failed
   command: service mariadb restart
@@ -67,6 +70,7 @@
 # [mysql_secure_installation] Remove anonymous users?
 - name: Security - Delete anonymous users
   shell: echo "DELETE FROM mysql.user WHERE User='';" | mysql -uroot
+  become: yes
 
 # [mysql_secure_installation] Disallow root login remotely?
 # - name: Security - Remove users who can log in remotely
@@ -75,6 +79,7 @@
 # [mysql_secure_installation] Remove test database and access to it?
 - name: Security - Delete test databases
   shell: echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';" | mysql -uroot
+  become: yes
 # ------------------------------ /mysql_secure_installation ------------------------------
 
 - name: Create user {{ mariadb_super_user_username }}
@@ -85,9 +90,11 @@
     login_host: '{{ mariadb_host }}'
     login_port: '{{ mariadb_port }}'
     state: present
+  become: yes
 
 - name: FLUSH PRIVILEGES
   shell: echo "FLUSH PRIVILEGES;" | mysql -uroot
+  become: yes
 
 - name: Restart MariaDB using service module
   service:
@@ -95,6 +102,7 @@
     state: restarted
   register: result
   ignore_errors: yes
+  become: yes
 
 - name: Fallback to direct command if restart failed
   command: service mariadb restart
@@ -107,6 +115,7 @@
 
 - name: FLUSH PRIVILEGES
   shell: echo "FLUSH PRIVILEGES;" | mysql -uroot
+  become: yes
 
 - name: Restart MariaDB using service module
   service:
@@ -114,6 +123,7 @@
     state: restarted
   register: result
   ignore_errors: yes
+  become: yes
 
 - name: Fallback to direct command if restart failed
   command: service mariadb restart

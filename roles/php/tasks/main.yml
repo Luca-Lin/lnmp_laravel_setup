@@ -19,10 +19,12 @@
   get_url:
     url:  https://packages.sury.org/php/apt.gpg
     dest: /etc/apt/trusted.gpg.d/php.gpg
+  become: yes
 
 # sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 - name: Ondrej Sury - Add the repository to sources list.
   shell: sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+  become: yes
 
 # sudo apt-get update
 - name: APT update
@@ -43,30 +45,35 @@
     dest: /etc/php/{{ version_php }}/fpm/php.ini
     regexp: 'date.timezone[\s]?='
     line: 'date.timezone = {{ timezone }}'
+  become: yes
 
 - name: Configuring upload_max_filesize of php.ini
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/php.ini
     regexp: 'upload_max_filesize[\s]?='
     line: 'upload_max_filesize = {{ upload_max_filesize }}'
+  become: yes
 
 - name: Configuring post_max_size of php.ini
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/php.ini
     regexp: 'post_max_size[\s]?='
     line: 'post_max_size = {{ post_max_size }}'
+  become: yes
 
 - name: Configuring memory_limit of php.ini
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/php.ini
     regexp: 'memory_limit[\s]?='
     line: 'memory_limit = {{ memory_limit }}'
+  become: yes
 
 - name: Configuring max_input_time of php.ini
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/php.ini
     regexp: 'max_input_time[\s]?='
     line: 'max_input_time = {{ max_input_time }}'
+  become: yes
 # ------------------------------ /php.ini ------------------------------
 
 # ------------------------------ www.conf ------------------------------
@@ -75,24 +82,28 @@
     dest: /etc/php/{{ version_php }}/fpm/pool.d/www.conf
     regexp: '^user[\s]?='
     line: 'user = {{ linux_user }}'
+  become: yes
 
 - name: Configuration of the group of the /etc/php/{{ version_php }}/fpm/pool.d/www.conf
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/pool.d/www.conf
     regexp: '^group[\s]?='
     line: 'group = {{ linux_user }}'
+  become: yes
 
 - name: Configuration of the listen.owner of the /etc/php/{{ version_php }}/fpm/pool.d/www.conf
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/pool.d/www.conf
     regexp: '^listen.owner[\s]?='
     line: 'listen.owner = {{ linux_user }}'
+  become: yes
 
 - name: Configuration of the listen.group of the/etc/php/{{ version_php }}/fpm/pool.d/www.conf
   lineinfile:
     dest: /etc/php/{{ version_php }}/fpm/pool.d/www.conf
     regexp: '^listen.group[\s]?='
     line: 'listen.group = {{ linux_user }}'
+  become: yes
 # ------------------------------ /www.conf ------------------------------
 
 - name: Restart php{{ version_php }}-fpm
@@ -101,6 +112,7 @@
     state: restarted
   register: result
   ignore_errors: yes
+  become: yes
 
 - name: Fallback to direct command if restart failed
   command: service php{{ version_php }}-fpm restart
