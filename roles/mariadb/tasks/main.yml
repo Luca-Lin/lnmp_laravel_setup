@@ -10,6 +10,7 @@
       - software-properties-common
       - gnupg2
     state: latest
+  become: yes
 
 - name: Check if we have already installed MariaDB on the server
   stat:
@@ -27,6 +28,7 @@
 - name: apt-get update
   apt:
     update_cache: yes
+  become: yes
   when: mariadb_exist.stat.exists == False
 
 - name: Install MariaDB
@@ -40,6 +42,7 @@
       - mariadb-common
       - python3-mysqldb # is not in https://mariadb.com/kb/en/installing-mariadb-deb-files/#installing-mariadb-packages-with-apt (but useful because dependency)
     state: latest
+  become: yes
   when: mariadb_exist.stat.exists == False
 # ------------------------------ /Install MariaDB ------------------------------
 
