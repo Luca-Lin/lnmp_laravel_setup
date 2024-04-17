@@ -16,6 +16,10 @@ mariadb_super_user_password: test
 mariadb_prod_username: user_prod
 mariadb_prod_password: test
 
+# REQUIRED
+# application database
+mariadb_db_name: app_db
+
 # MariaDB parameters
 mariadb_collation: utf8mb4_unicode_ci
 mariadb_encoding: utf8mb4

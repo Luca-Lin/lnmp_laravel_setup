@@ -10,11 +10,11 @@
 - **PHP 8.2** 作為腳本語言
 - **Laravel** 作為網頁開發的 PHP 框架
 
-這個設置在 Debian 10 (Buster) 上進行過測試，但也適用於其他 Debian 基礎發行版，只需微小調整。
+這個設置在 Debian 12 上進行過測試
 
 ## 先決條件
 
-- 一台運行 Debian 10 或更新版本的目標服務器。
+- 一台運行 Debian 12 務器。
 - 能夠使用 SSH 存取服務器。
 - 在 `inventory/hosts.ini` 檔案中添加服務器的 IP 地址或域名。
 - 在您的本機或控制節點上安裝 Ansible。

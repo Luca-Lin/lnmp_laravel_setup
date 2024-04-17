@@ -96,3 +96,22 @@
 - name: Fallback to direct command if restart failed
   command: service mariadb restart
   when: result is failed
+
+
+- name: Configuration of domain DB
+  include_tasks: domain.yml
+  when: mariadb_exist.stat.exists == False
+
+- name: FLUSH PRIVILEGES
+  shell: echo "FLUSH PRIVILEGES;" | mysql -uroot
+
+- name: Restart MariaDB using service module
+  service:
+    name: mariadb
+    state: restarted
+  register: result
+  ignore_errors: yes
+
+- name: Fallback to direct command if restart failed
+  command: service mariadb restart
+  when: result is failed

@@ -2,9 +2,9 @@
 # @author Stephen Damian <contact@damian-freelance.fr>
 # @link   https://github.com/s-damian/ansible-web-server-debian
 
-- name: Creation of the DB {{ item | regex_replace('\\.', '-') }}_prod
+- name: Creation of the DB {{ mariadb_db_name }}_prod
   mysql_db:
-    name: "{{ item | regex_replace('\\.', '-') }}_prod"
+    name: "{{ mariadb_db_name }}_prod"
     state: present
     collation: '{{ mariadb_collation }}'
     encoding: '{{ mariadb_encoding }}'
@@ -13,11 +13,11 @@
     login_user: '{{ mariadb_super_user_username }}'
     login_password: '{{ mariadb_super_user_password }}'
 
-- name: Create user {{ mariadb_prod_username }} for the DB {{ item | regex_replace('\\.', '-') }}_prod
+- name: Create user {{ mariadb_prod_username }} for the DB {{ mariadb_db_name }}_prod
   mysql_user:
     name: '{{ mariadb_prod_username }}'
     password: '{{ mariadb_prod_password }}'
-    priv: "{{ item | regex_replace('\\.', '-') }}_prod.*:ALL"
+    priv: "{{ mariadb_db_name }}_prod.*:ALL"
     login_host: '{{ mariadb_host }}'
     login_port: '{{ mariadb_port }}'
     state: present
